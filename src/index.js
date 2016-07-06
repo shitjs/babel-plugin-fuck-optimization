@@ -4,7 +4,10 @@ module.exports = function (babel) {
   return {
     visitor: {
       BlockStatement: function (path) {
-        if (t.isFunctionDeclaration(path.parentPath)) {
+        if (
+          t.isFunctionDeclaration(path.parentPath) ||
+          t.isClassMethod(path.parentPath)
+        ) {
           path.node.body.push(
             t.tryStatement(
               t.blockStatement([]),
