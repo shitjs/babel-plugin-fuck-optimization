@@ -1,9 +1,19 @@
-export default function ({types: t}) {
+module.exports = function (babel) {
+  var t = babel.types;
+
   return {
     visitor: {
-      FunctionDeclaration(path) {
-        console.log(path);
+      BlockStatement: function (path) {
+        if (t.isFunctionDeclaration(path.parentPath)) {
+          path.node.body.push(
+            t.tryStatement(
+              t.blockStatement([]),
+              t.catchClause(t.identifier('e'), t.blockStatement([])),
+              t.blockStatement([])
+            )
+          );
+        }
       }
     }
   }
-}
+};

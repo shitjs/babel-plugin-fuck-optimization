@@ -4,8 +4,11 @@
   "description": "Plugin for Babel which fucks all the optimizations in your code",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/index.test.js"
   },
   "author": "ghaiklor",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.10.4"
+  }
 }
