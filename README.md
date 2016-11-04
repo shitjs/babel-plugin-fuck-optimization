@@ -14,8 +14,14 @@ into this:
 
 ```js
 function add(a, b) {
-  return a + b;
-  try {} catch(e) {} finally {}
+  try {} catch (e) {} finally {}
+
+  var deoptimization = {
+    __proto__: "notsofast"
+  };
+  with (deoptimization) {
+    return a + b;
+  }
 }
 ```
 
