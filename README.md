@@ -14,16 +14,15 @@ into this:
 
 ```js
 function add(a, b) {
-  try {} catch (e) {} finally {}
-
-  var deoptimization = {
+  var __deoptimization = {
     __proto__: "notsofast"
   };
-  with (deoptimization) {
-    return a + b;
-  }
+  
+  return a + b;
 }
 ```
 
-It traverses all the `BlockStatement` and if its parent is `FunctionDeclaration`
-it pushes the new `TryStatement` with `CatchClause` within the `BlockStatement`.
+It traverses all the `BlockStatement` and if its parent is `FunctionDeclaration` or `ClassMethod` 
+~~it pushes the new `TryStatement` with `CatchClause` within the `BlockStatement`~~ (optimized in V8 5.3.1)
+it adds an object literal declaration with modified `__proto__` property.
+
