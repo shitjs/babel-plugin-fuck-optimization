@@ -1,3 +1,5 @@
+var deoptimizationVariableName = '__deoptimization'
+
 module.exports = function (babel) {
   var t = babel.types;
 
@@ -12,35 +14,16 @@ module.exports = function (babel) {
           return;
         }
 
-        var oldBody = path.node.body.slice(0);
-
-        path.node.body.length = 0;
-
-        var tryCatchStatement = t.tryStatement(
-          t.blockStatement([]),
-          t.catchClause(t.identifier('e'), t.blockStatement([])),
-          t.blockStatement([])
-        );
-
-        path.node.body.push(tryCatchStatement);
-
         var deoptimizationVariableDeclaration = t.variableDeclaration('var', [
           t.variableDeclarator(
-            t.identifier('deoptimization'),
+            t.identifier(deoptimizationVariableName),
             t.objectExpression([
               t.objectProperty(t.Identifier('__proto__'), t.stringLiteral('notsofast'))
             ])
           )
         ]);
 
-        path.node.body.push(deoptimizationVariableDeclaration);
-
-        var withStatement = t.withStatement(
-          t.identifier('deoptimization'),
-          t.blockStatement(oldBody)
-        );
-
-        path.node.body.push(withStatement);
+        path.node.body.unshift(deoptimizationVariableDeclaration);
       }
     }
   }
