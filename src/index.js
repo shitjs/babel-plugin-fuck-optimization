@@ -4,7 +4,23 @@ module.exports = function (babel) {
   var t = babel.types;
 
   var isDeoptimizablePath = function (path) {
-    return t.isFunctionDeclaration(path.parentPath) || t.isClassMethod(path.parentPath)
+    if (t.isFunctionDeclaration(path.parentPath)) {
+      return true;
+    }
+
+    if (t.isClassMethod(path.parentPath)) {
+      return true;
+    }
+
+    if (t.isFunctionExpression(path.parentPath)) {
+      return true;
+    }
+
+    if (t.isArrowFunctionExpression(path.parentPath)) {
+      return true;
+    }
+
+    return false;
   };
 
   return {
