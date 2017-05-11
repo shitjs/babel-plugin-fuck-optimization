@@ -22,7 +22,7 @@ function add(a, b) {
 }
 ```
 
-It traverses all the `BlockStatement` and if its parent is `FunctionDeclaration` or `ClassMethod` 
+It traverses all the `BlockStatement` and if its parent is `FunctionDeclaration`, `ClassMethod`, `FunctionExpression` or `ArrowFunctionExpression` (basically all functions in your code)
 ~~it pushes the new `TryStatement` with `CatchClause` within the `BlockStatement`~~ (optimized in V8 5.3.1)
 it adds an object literal declaration with modified `__proto__` property.
 
